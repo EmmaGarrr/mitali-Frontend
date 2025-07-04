@@ -1,16 +1,17 @@
 <div class="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
-  <!-- Title is now dynamic based on state -->
+
   <h2 class="text-2xl font-bold text-center mb-6">
     <ng-container [ngSwitch]="currentState">
         <span *ngSwitchCase="'idle'">Select a File</span>
         <span *ngSwitchCase="'selected'">Ready to Upload</span>
         <span *ngSwitchCase="'uploading'">Uploading...</span>
+        <span *ngSwitchCase="'processing'">Processing...</span>
         <span *ngSwitchCase="'success'">Upload Complete!</span>
         <span *ngSwitchCase="'error'">Upload Failed</span>
     </ng-container>
   </h2>
   
-  <!-- STATE: Idle or Selected (File Dropzone) -->
+
   <div *ngIf="currentState === 'idle' || currentState === 'selected'">
     <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-blue-500 transition-colors"
          (click)="fileInput.click()" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
@@ -32,7 +33,7 @@
     </button>
   </div>
   
-  <!-- STATE: Uploading (Shows progress) -->
+
   <div *ngIf="currentState === 'uploading'">
     <p class="text-center text-gray-600 mb-2">Your file is being securely uploaded...</p>
     <mat-progress-bar mode="determinate" [value]="browserUploadProgress"></mat-progress-bar>
@@ -40,7 +41,24 @@
     <p class="text-center text-gray-500 text-sm mt-4">Please keep this window open.</p>
   </div>
 
-  <!-- STATE: Success (Link is ready) -->
+
+  <!-- ADD THIS ENTIRE NEW BLOCK FOR THE PROCESSING STATE -->
+  <!-- <div *ngIf="currentState === 'processing'">
+    <div class="flex flex-col items-center justify-center p-8">
+      <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500"></div>
+      <p class="text-center text-gray-600 mt-4">Your file is being processed on the server.</p>
+      <p class="text-center text-gray-500 text-sm">This may take a few minutes for large files. Please wait.</p>
+    </div>
+  </div> -->
+
+  <!-- STATE: Processing (Shows Server -> Drive progress) -->
+  <div *ngIf="currentState === 'processing'">
+    <p class="text-center text-gray-600 mb-2">Processing file on server...</p>
+    <mat-progress-bar mode="determinate" [value]="serverUploadProgress"></mat-progress-bar>
+    <p class="text-center font-mono text-xl mt-2">{{ serverUploadProgress }}%</p>
+    <p class="text-center text-gray-500 text-sm mt-4">Uploading to Google Drive. Please wait.</p>
+  </div>
+
   <div *ngIf="currentState === 'success'">
     <div class="p-4 bg-green-100 border-l-4 border-green-500 text-green-800 rounded-lg">
       <strong class="font-bold">Success!</strong>
@@ -59,7 +77,7 @@
     </button>
   </div>
 
-  <!-- STATE: Error -->
+
   <div *ngIf="currentState === 'error'">
      <div class="p-4 bg-red-100 border-l-4 border-red-500 text-red-800 rounded">
         <strong class="font-bold">An Error Occurred</strong>
