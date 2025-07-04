@@ -154,14 +154,17 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject, throwError, Observer } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UploadService {
   // URLs for backend services
-  private apiUrl = 'http://localhost:5000/api/v1';
-  private wsUrl = 'ws://localhost:5000/ws_api/ws';
+  // private apiUrl = 'http://localhost:5000/api/v1';
+  // private wsUrl = 'ws://localhost:5000/ws_api/ws';
+  private apiUrl = environment.apiUrl;
+  private wsUrl = environment.wsUrl;
 
   // Subject for the initial BROWSER-TO-SERVER upload progress
   private browserUploadProgress = new Subject<number>();
