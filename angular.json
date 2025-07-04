@@ -31,9 +31,21 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "vercel.json"
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets/"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "src",
+                "output": "/"
+              },
+              {
+                "glob": "vercel.json",
+                "input": "./",
+                "output": "/"
+              }
             ],
             "styles": [
               "src/custom-theme.scss",
@@ -93,8 +105,8 @@
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              "vercel.json"
+              "src/assets"
+              
             ],
             "styles": [
               "src/styles.css"
